@@ -1,2 +1,2 @@
 # rakamin-java
-Repository belajar Rakamin
+Repository belajar automation testing by Rakamin
