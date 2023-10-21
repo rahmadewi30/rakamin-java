@@ -9,11 +9,11 @@ public class casePercabangan {
         int nilai = scanner.nextInt();
         String grade;
 
-        if (true == nilai > 89) {
+        if (nilai > 89) {
             grade = "A";
-        } else if (true == nilai > 79) {
+        } else if (nilai > 79) {
             grade = "B+";
-        } else if (true == nilai > 69) {
+        } else if (nilai > 69) {
             grade = "B";
         } else {
             grade = "F";
