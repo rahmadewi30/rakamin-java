@@ -10,6 +10,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.time.Duration;
+
 public class login {
     WebDriver driver;
     String baseUrl = "https://www.saucedemo.com/";
@@ -19,6 +21,7 @@ public class login {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.get(baseUrl);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         String loginPageAssert = driver.findElement(By.xpath("//div[contains(@class,'login_logo')]")).getText();
         Assert.assertEquals(loginPageAssert, "Swag Labs");
@@ -41,8 +44,8 @@ public class login {
 
     @Then("Dashboard page shown")
     public void dashboard_page_shown() {
-        String dashboardAssert = driver.findElement(By.xpath("//span[contains(@class,'title')]")).getText();
-        Assert.assertEquals(dashboardAssert,"Products");
+        String dashboardAssert = driver.findElement(By.xpath("//div[contains(@class,'app_logo')]")).getText();
+        Assert.assertEquals(dashboardAssert,"Swag Labs");
         driver.close();
     }
 
@@ -79,27 +82,26 @@ public class login {
     @When("input (.*) as username$")
     public void input_standard_user_as_username(String username){
         driver.findElement(By.id("user-name")).sendKeys(username);
-
     }
 
     @And("input (.*) as password$")
     public void input_secret_sauce_as_password(String password){
         driver.findElement(By.id("password")).sendKeys(password);
-
     }
 
     @Then("verify (.*) login result$")
-    public void verify_success_login_result(String status){
-        if(status.equals("success")){
-            driver.findElement(By.xpath("//div[contains(@class,'app_logo')]"));
-            String dashboardAssert = driver.findElement(By.xpath("//span[contains(@class,'title')]")).getText();
-            Assert.assertEquals(dashboardAssert,"Products");
+    public void verify_success_login_result(String status) {
+        if (status.equals("locked")) {
+            String errorMessageAssert = driver.findElement(By.xpath("//h3[contains(@data-test,'error')]")).getText();
+            Assert.assertEquals(errorMessageAssert, "Epic sadface: Sorry, this user has been locked out.");
+        } else if (status.equals("failed")) {
+            String errorMessageAssert = driver.findElement(By.xpath("//h3[contains(@data-test,'error')]")).getText();
+            Assert.assertEquals(errorMessageAssert, "Epic sadface: Username and password do not match any user in this service");
         } else {
-            String errorMessageAssert = driver.findElement(By.xpath("//div[contains(@class,'error-message-container error')]")).getText();
-            Assert.assertEquals(errorMessageAssert,"Epic sadface: Username and password do not match any user in this service");
-
+            String dashboardAssert = driver.findElement(By.xpath("//span[contains(@class,'title')]")).getText();
+            Assert.assertEquals(dashboardAssert, "Products");
         }
-        driver.close();
+    driver.close();
     }
 }
 

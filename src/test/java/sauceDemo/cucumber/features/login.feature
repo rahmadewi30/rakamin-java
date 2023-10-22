@@ -37,9 +37,10 @@ Feature: Login to SauceLab
     When input <username> as username
     And input <password> as password
     And click Login button
-    Then verify <status> login result
+    Then verify <state> login result
 
     Examples:
-      | username      | password      | status
-      | standard_user | secret_sauce  | success
-      | standard_user | abc123        | failed
+      | username        | password      | state
+      | standard_user   | secret_sauce  | success
+      | abc123          | secret_sauce  | failed
+      | locked_out_user | secret_sauce  | locked
