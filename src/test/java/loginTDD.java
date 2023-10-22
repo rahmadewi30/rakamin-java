@@ -11,10 +11,10 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class DDTlogin {
+public class loginTDD {
     //login menggunakan fitur Data Driven Test (DDT)
     @Test
-    public void login_ddt(){
+    public void login_tdd(){
         WebDriver driver;
         String baseUrl = "https://saucedemo.com/";
 
@@ -52,7 +52,7 @@ public class DDTlogin {
                     Assert.assertEquals(errorMessageAssert,"Epic sadface: Username and password do not match any user in this service");
 
                 }
-                driver.close();
+                driver.quit();
             }
 
         } catch (IOException | CsvValidationException e) {
