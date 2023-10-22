@@ -64,6 +64,18 @@ public class login {
         driver.findElement(By.id("password")).sendKeys("abc123");
     }
 
+    @When("input locked username")
+    public void inputLockedUsername() {
+        driver.findElement(By.id("user-name")).sendKeys("locked_out_user");
+    }
+
+    @Then("locked out message shown")
+    public void lockedOutMessageShown() {
+        String errorMessageAssert = driver.findElement(By.xpath("//div[contains(@class,'error-message-container error')]")).getText();
+        Assert.assertEquals(errorMessageAssert,"Epic sadface: Sorry, this user has been locked out.");
+        driver.close();
+    }
+
     @When("input (.*) as username$")
     public void input_standard_user_as_username(String username){
         driver.findElement(By.id("user-name")).sendKeys(username);
@@ -87,18 +99,6 @@ public class login {
             Assert.assertEquals(errorMessageAssert,"Epic sadface: Username and password do not match any user in this service");
 
         }
-        driver.close();
-    }
-
-    @When("input locked username")
-    public void inputLockedUsername() {
-        driver.findElement(By.id("user-name")).sendKeys("locked_out_user");
-    }
-
-    @Then("locked out message shown")
-    public void lockedOutMessageShown() {
-        String errorMessageAssert = driver.findElement(By.xpath("//div[contains(@class,'error-message-container error')]")).getText();
-        Assert.assertEquals(errorMessageAssert,"Epic sadface: Sorry, this user has been locked out.");
         driver.close();
     }
 }
